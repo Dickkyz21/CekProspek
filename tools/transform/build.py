@@ -64,10 +64,11 @@ for i, tag, cls in hide_rules:
 HREF = {1: '#', 3: '#apa', 4: '#beda', 7: '#harga', 9: '#harga',
         18: '#harga', 19: '#produk', 138: '#checkout', 147: '#checkout', 156: '#checkout',
         165: '#', 520: '#', 540: '#harga', 541: '#produk',
-        568: '#produk', 570: '#produk', 572: '#produk',
-        575: '#', 576: '#', 577: '#', 578: '#',
-        583: '#cara-kerja', 584: '#cara-kerja', 585: '#cara-kerja',
-        591: '#harga', 592: '#beda', 593: '#apa', 597: '#', 598: '#'}
+        568: '/halaman/landing-page-penjualan', 570: '/halaman/setup-iklan-meta-tiktok', 572: '/halaman/aplikasi-kasir-stok',
+        575: '/halaman/penjual-online', 576: '/halaman/usaha-whatsapp', 577: '/halaman/pengguna-iklan', 578: '/halaman/agensi',
+        583: '/halaman/hubungkan-data', 584: '/halaman/lihat-skor', 585: '/halaman/bertindak',
+        591: '/halaman/harga', 592: '/halaman/keunggulan', 593: '/halaman/apa-itu-ops',
+        597: '/halaman/syarat-ketentuan', 598: '/halaman/kebijakan-privasi'}
 for i, href in HREF.items():
     try:
         e = nearest(texts[i], 'a')

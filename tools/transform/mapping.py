@@ -108,9 +108,9 @@ T.update({545: "suhuku — prospek", 546: ("sub", "ngulikdata", "suhuku"),
           557: ("sub", "skill_baru", "nama"),
           558: "Dewi Lestari\n Agus Setiawan"})
 # Footer
-T.update({560: "Suhuku", 561: "Alat dashboard untuk memberi skor prospek dan pelanggan UMKM.",
-          562: "Halaman pratinjau, bukan situs produksi.",
-          566: "© 2026 Suhuku. Semua hak dilindungi.",
+T.update({560: "Ops Analisis", 561: "Alat dashboard untuk memberi skor prospek dan pelanggan UMKM.",
+          562: "Layanan agensi (website, iklan, branding) tersedia di halaman terpisah.",
+          566: "© 2026 Ops Analisis · CekProspek.id. Semua hak dilindungi.",
           568: "Landing page penjualan", 569: "Template · Rp 350.000",
           570: "Setup iklan Meta dan TikTok", 571: "Paket iklan · Rp 1.200.000",
           572: "Aplikasi kasir dan stok", 573: "Aplikasi · Rp 900.000",
