@@ -231,22 +231,51 @@ JS = """
       kotak.classList.remove('sh-pop'); void kotak.offsetWidth; kotak.classList.add('sh-pop');
     });
   });
-  // Accordion FAQ
+  // Accordion FAQ: animasi tinggi berbasis scrollHeight (grid 0fr->1fr tidak mengembang di sini)
+  function faqAtur(btn, panel, buka, animasi) {
+    var card = btn.parentElement;
+    btn.setAttribute('aria-expanded', buka ? 'true' : 'false');
+    panel.style.display = 'block';
+    panel.style.overflow = 'hidden';
+    panel.style.transition = animasi ? 'height 300ms ease-in-out' : 'none';
+    if (buka) {
+      panel.style.height = animasi ? panel.scrollHeight + 'px' : 'auto';
+    } else {
+      panel.style.height = panel.scrollHeight + 'px';
+      void panel.offsetHeight;
+      panel.style.height = '0px';
+    }
+    var ikon = btn.querySelector('svg');
+    if (ikon) {
+      ikon.style.transition = animasi ? 'transform 300ms ease-in-out' : 'none';
+      ikon.style.transform = buka ? 'rotate(45deg)' : 'rotate(0deg)';
+    }
+    if (card) {
+      card.classList.toggle('border-primary/30', buka);
+      card.classList.toggle('bg-primary/5', buka);
+      card.classList.toggle('border-base-300', !buka);
+      card.classList.toggle('bg-base-100', !buka);
+    }
+  }
   [].slice.call(document.querySelectorAll('button[aria-controls^="faq-panel-"]')).forEach(function (btn) {
+    var panel = document.getElementById(btn.getAttribute('aria-controls'));
+    if (!panel) return;
+    var awal = btn.getAttribute('aria-expanded') === 'true';
+    faqAtur(btn, panel, awal, false);
+    panel.addEventListener('transitionend', function (ev) {
+      if (ev.target !== panel || ev.propertyName !== 'height') return;
+      if (btn.getAttribute('aria-expanded') === 'true') panel.style.height = 'auto';
+    });
     btn.addEventListener('click', function (ev) {
       ev.stopImmediatePropagation();
-      var panel = document.getElementById(btn.getAttribute('aria-controls'));
-      var card = btn.parentElement;
       var buka = btn.getAttribute('aria-expanded') !== 'true';
-      btn.setAttribute('aria-expanded', buka ? 'true' : 'false');
-      if (panel) panel.style.gridTemplateRows = buka ? '1fr' : '0fr';
-      var ikon = btn.querySelector('svg');
-      if (ikon) ikon.style.transform = buka ? 'rotate(45deg)' : '';
-      if (card) {
-        card.classList.toggle('border-primary/30', buka);
-        card.classList.toggle('bg-primary/5', buka);
-        card.classList.toggle('border-base-300', !buka);
-        card.classList.toggle('bg-base-100', !buka);
+      if (buka) {
+        faqAtur(btn, panel, true, true);
+      } else {
+        panel.style.height = panel.scrollHeight + 'px';
+        void panel.offsetHeight;
+        btn.setAttribute('aria-expanded', 'false');
+        faqAtur(btn, panel, false, true);
       }
     });
   });
