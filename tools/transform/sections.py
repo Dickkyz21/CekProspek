@@ -250,6 +250,17 @@ JS = """
       ikon.style.transition = animasi ? 'transform 300ms ease-in-out' : 'none';
       ikon.style.transform = buka ? 'rotate(45deg)' : 'rotate(0deg)';
     }
+    var kotakIkon = btn.firstElementChild;
+    var judul = btn.querySelector('span');
+    if (kotakIkon) {
+      kotakIkon.classList.toggle('bg-primary', buka);
+      kotakIkon.classList.toggle('text-primary-content', buka);
+      kotakIkon.classList.toggle('bg-base-200', !buka);
+    }
+    if (judul) {
+      judul.classList.toggle('text-primary', buka);
+      judul.classList.toggle('text-base-content', !buka);
+    }
     if (card) {
       card.classList.toggle('border-primary/30', buka);
       card.classList.toggle('bg-primary/5', buka);
@@ -274,17 +285,23 @@ JS = """
       if (ev.target !== panel || ev.propertyName !== 'height') return;
       if (btn.getAttribute('aria-expanded') === 'true') panel.style.height = 'auto';
     });
-    btn.addEventListener('click', function (ev) {
-      ev.stopImmediatePropagation();
-      if (btn.getAttribute('aria-expanded') === 'true') {
-        faqTutup(btn);
-        return;
-      }
-      // Hanya satu item yang terbuka: tutup yang lain dulu
-      faqSemua.forEach(function (lain) { if (lain !== btn) faqTutup(lain); });
-      faqAtur(btn, panel, true, true);
-    });
   });
+  // Klik FAQ ditangani di tahap capture pada window, sebelum runtime template (yang juga
+  // menangani [aria-controls][aria-expanded] di document) sempat ikut mengubah status.
+  window.addEventListener('click', function (ev) {
+    var t = ev.target instanceof Element ? ev.target : null;
+    var btn = t && t.closest('button[aria-controls^="faq-panel-"]');
+    if (!btn || !faqPanel(btn)) return;
+    ev.stopPropagation();
+    ev.preventDefault();
+    if (btn.getAttribute('aria-expanded') === 'true') {
+      faqTutup(btn);
+      return;
+    }
+    // Hanya satu item yang terbuka: tutup yang lain dulu
+    faqSemua.forEach(function (lain) { if (lain !== btn) faqTutup(lain); });
+    faqAtur(btn, faqPanel(btn), true, true);
+  }, true);
 
   // Toggle tema terang / gelap (menu bawaan template tidak ikut tersalin)
   var akar = document.documentElement;
