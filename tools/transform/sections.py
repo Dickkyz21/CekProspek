@@ -257,26 +257,32 @@ JS = """
       card.classList.toggle('bg-base-100', !buka);
     }
   }
-  [].slice.call(document.querySelectorAll('button[aria-controls^="faq-panel-"]')).forEach(function (btn) {
-    var panel = document.getElementById(btn.getAttribute('aria-controls'));
+  var faqSemua = [].slice.call(document.querySelectorAll('button[aria-controls^="faq-panel-"]'));
+  function faqPanel(btn) { return document.getElementById(btn.getAttribute('aria-controls')); }
+  function faqTutup(btn) {
+    var panel = faqPanel(btn);
+    if (!panel || btn.getAttribute('aria-expanded') !== 'true') return;
+    panel.style.height = panel.scrollHeight + 'px';
+    void panel.offsetHeight;
+    faqAtur(btn, panel, false, true);
+  }
+  faqSemua.forEach(function (btn) {
+    var panel = faqPanel(btn);
     if (!panel) return;
-    var awal = btn.getAttribute('aria-expanded') === 'true';
-    faqAtur(btn, panel, awal, false);
+    faqAtur(btn, panel, btn.getAttribute('aria-expanded') === 'true', false);
     panel.addEventListener('transitionend', function (ev) {
       if (ev.target !== panel || ev.propertyName !== 'height') return;
       if (btn.getAttribute('aria-expanded') === 'true') panel.style.height = 'auto';
     });
     btn.addEventListener('click', function (ev) {
       ev.stopImmediatePropagation();
-      var buka = btn.getAttribute('aria-expanded') !== 'true';
-      if (buka) {
-        faqAtur(btn, panel, true, true);
-      } else {
-        panel.style.height = panel.scrollHeight + 'px';
-        void panel.offsetHeight;
-        btn.setAttribute('aria-expanded', 'false');
-        faqAtur(btn, panel, false, true);
+      if (btn.getAttribute('aria-expanded') === 'true') {
+        faqTutup(btn);
+        return;
       }
+      // Hanya satu item yang terbuka: tutup yang lain dulu
+      faqSemua.forEach(function (lain) { if (lain !== btn) faqTutup(lain); });
+      faqAtur(btn, panel, true, true);
     });
   });
 
