@@ -146,6 +146,10 @@ tr[data-tier]{transition:opacity .3s}
 .sh-reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.32,.72,0,1)}
 .sh-reveal.sh-in{opacity:1;transform:none}
 .sh-card.sh-reveal.sh-in:hover,.sh-plan.sh-reveal.sh-in:hover{transform:translateY(-4px)}
+[data-theme="light"] .theme-icon-dark{display:block!important}
+[data-theme="light"] .theme-icon-light{display:none!important}
+[data-theme="dark"] .theme-icon-light{display:block!important}
+[data-theme="dark"] .theme-icon-dark{display:none!important}
 @media (prefers-reduced-motion:reduce){
   .sh-reveal{opacity:1;transform:none;transition:none}
   .sh-cart.sh-pop{animation:none}
@@ -227,6 +231,45 @@ JS = """
       kotak.classList.remove('sh-pop'); void kotak.offsetWidth; kotak.classList.add('sh-pop');
     });
   });
+  // Accordion FAQ
+  [].slice.call(document.querySelectorAll('button[aria-controls^="faq-panel-"]')).forEach(function (btn) {
+    btn.addEventListener('click', function (ev) {
+      ev.stopImmediatePropagation();
+      var panel = document.getElementById(btn.getAttribute('aria-controls'));
+      var card = btn.parentElement;
+      var buka = btn.getAttribute('aria-expanded') !== 'true';
+      btn.setAttribute('aria-expanded', buka ? 'true' : 'false');
+      if (panel) panel.style.gridTemplateRows = buka ? '1fr' : '0fr';
+      var ikon = btn.querySelector('svg');
+      if (ikon) ikon.style.transform = buka ? 'rotate(45deg)' : '';
+      if (card) {
+        card.classList.toggle('border-primary/30', buka);
+        card.classList.toggle('bg-primary/5', buka);
+        card.classList.toggle('border-base-300', !buka);
+        card.classList.toggle('bg-base-100', !buka);
+      }
+    });
+  });
+
+  // Toggle tema terang / gelap (menu bawaan template tidak ikut tersalin)
+  var akar = document.documentElement;
+  function setTema(t) {
+    akar.setAttribute('data-theme', t);
+    try { localStorage.setItem('tema-ops', t); } catch (e) {}
+    [].slice.call(document.querySelectorAll('button[aria-label="Tema tampilan"]')).forEach(function (b) {
+      b.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+      b.removeAttribute('aria-haspopup');
+      b.removeAttribute('aria-expanded');
+    });
+  }
+  try { var simpan = localStorage.getItem('tema-ops'); if (simpan === 'dark' || simpan === 'light') setTema(simpan); else setTema('light'); } catch (e) { setTema('light'); }
+  [].slice.call(document.querySelectorAll('button[aria-label="Tema tampilan"]')).forEach(function (b) {
+    b.addEventListener('click', function (ev) {
+      ev.stopImmediatePropagation();
+      setTema(akar.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
+  });
+
   bayar.addEventListener('click', function () {
     pesan.textContent = 'Ini pratinjau. Pembayaran akan dihubungkan saat situs live.';
   });

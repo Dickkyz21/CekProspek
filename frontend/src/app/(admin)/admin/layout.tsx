@@ -4,7 +4,7 @@ import { teksAdmin } from "@/content/admin";
 
 // Belum ada autentikasi. Jangan biarkan halaman ini terindeks atau dibuka publik sebelum login dipasang.
 export const metadata: Metadata = {
-  title: "Admin. Suhuku",
+  title: "Admin. Ops",
   robots: { index: false, follow: false },
 };
 

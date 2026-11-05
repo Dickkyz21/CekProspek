@@ -16,7 +16,7 @@ export function AdminSidebar() {
     <aside className="border-b md:sticky md:top-0 md:h-screen md:border-b-0 md:border-r">
       <div className="flex items-center justify-between gap-4 px-6 py-5 md:block">
         <Link href="/admin" className="text-lg font-bold">
-          Suhuku<span className="text-accent">.</span> <span className="text-sm font-normal opacity-60">Admin</span>
+          Ops<span className="text-accent">.</span> <span className="text-sm font-normal opacity-60">Admin</span>
         </Link>
         <p className="hidden text-xs opacity-60 md:mt-2 md:block">{teksAdmin.sidebarCatatan}</p>
       </div>

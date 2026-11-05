@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Suhuku. Ketahui siapa yang siap beli",
+  title: "OPS Analisis (Cek Prospek). Ketahui siapa yang siap beli",
   description:
-    "Suhuku membaca data kontak dan transaksi Anda, memberi skor pada setiap prospek dan pelanggan, lalu menunjukkan siapa yang perlu dihubungi hari ini.",
+    "Ops membaca data kontak dan transaksi Anda, memberi skor pada setiap prospek dan pelanggan, lalu menunjukkan siapa yang perlu dihubungi hari ini.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

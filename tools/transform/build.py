@@ -211,11 +211,12 @@ full = re.sub(r'class="([^"]*)"', _fix_class, full)
 
 # 6. Kepala dokumen
 full = re.sub(r'href="https://ngulikdata\.com[^"]*"', 'href="#"', full)
-full = full.replace('Ngulik Data homepage', 'Suhuku homepage')
-full = re.sub(r'<title>.*?</title>', '<title>Suhuku. Ketahui siapa yang siap beli sebelum Anda menghubungi mereka</title>', full, count=1, flags=re.S)
+full = full.replace('Ngulik Data homepage', 'OPS Analisis homepage')
+full = re.sub(r'<title>.*?</title>', '<title>OPS Analisis (Cek Prospek). Ketahui siapa yang siap beli</title>', full, count=1, flags=re.S)
 full = full.replace('<meta name="uic-origin" content="https://ngulikdata.com">\n', '')
 full = re.sub(r'<!-- Cloned with Clonova[^\n]*-->\n', '', full, count=1)
-full = full.replace('<html lang="id" data-theme="ngulikdata-dark"', '<html lang="id" data-theme="suhuku-dark"', 1)
+full = full.replace('<html lang="id" data-theme="ngulikdata-dark"', '<html lang="id" data-theme="light"', 1)
+full = full.replace('Suhuku', 'Ops').replace('suhuku', 'ops')
 
 import os
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
